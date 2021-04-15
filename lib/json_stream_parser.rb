@@ -99,7 +99,16 @@ class JsonStreamParser
     parser.start_array{ stack << [] if stack.count > 0 }
     parser.end_array{ process_item }
     parser.key{|k| key_stack << k }
-    parser.value{|v| stack.last[key_stack.pop] = v }
+    parser.value do |v|
+      # handle array element value
+      if stack.last.is_a? Array
+        stack.last << v
+        next
+      end
+      
+      # handle object key value
+      stack.last[key_stack.pop] = v
+    end
   end
 
   # Reset the parser object and configure it.
