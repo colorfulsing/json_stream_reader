@@ -16,7 +16,7 @@ sample_path = './sample.json' if sample_path.length < 1
 # create sample file
 real_counter = 0
 counter = 0
-File.open('sample.json', 'w') do |f|
+File.open(sample_path, 'w') do |f|
   f.puts '['
   
   JsonStreamParser.parse(file_path) do |data|
